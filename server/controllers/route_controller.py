@@ -2,12 +2,16 @@ from flask import Blueprint, request, jsonify
 from server.models import Route
 from server.extensions import db
 route_bp = Blueprint("routes", __name__, url_prefix="/api/routes")
+from server.utils.auth import role_required
+from flask_jwt_extended import jwt_required
 
 @route_bp.route("/", methods=["GET"])
 def get_routes():
     return jsonify([r.to_dict() for r in Route.query.all()])
 
 @route_bp.route("/", methods=["POST"])
+@jwt_required()
+@role_required("Admin")
 def create_route():
     data = request.get_json()
     try:

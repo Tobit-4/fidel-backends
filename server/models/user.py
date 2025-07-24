@@ -25,14 +25,6 @@ class User(db.Model):
         self.phone_number = phone_number
         self.Role = Role
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "bookings": [b.basic_info() for b in self.bookings],
-            "role": self.Role
-        }
-
 
     @hybrid_property
     def password_hash(self):
@@ -83,7 +75,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "username": self.username,
-            "bookings": [b.basic_info() for b in self.bookings],
+            "bookings": [b.basic_info for b in self.bookings],
             "role": self.Role
         }
     

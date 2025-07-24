@@ -10,7 +10,7 @@ class Schedule(db.Model):
     departure_time = db.Column(db.DateTime, nullable=False)
     arrival_time = db.Column(db.DateTime, nullable=False)
     price_per_seat = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(20), default='available')
+    available_seats = db.Column(db.String(20), default='available')
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
 
@@ -18,13 +18,13 @@ class Schedule(db.Model):
     bus = db.relationship('Bus', back_populates='schedules')
     bookings = db.relationship('Booking', back_populates='schedule', lazy=True)
 
-    def __init__(self, bus_id, route_id, departure_time, arrival_time, price_per_seat, status='available', created_at=None):
+    def __init__(self, bus_id, route_id, departure_time, arrival_time, price_per_seat, available_seats='available', created_at=None):
         self.bus_id = bus_id
         self.route_id = route_id
         self.departure_time = departure_time
         self.arrival_time = arrival_time
         self.price_per_seat = price_per_seat
-        self.status = status
+        self.available_seats = available_seats
 
     @validates('price_per_seat')
     def validate_price_per_seat(self, key, value):
@@ -62,7 +62,7 @@ class Schedule(db.Model):
             'departure_time': self.departure_time.isoformat() if self.departure_time else None,
             'arrival_time': self.arrival_time.isoformat() if self.arrival_time else None,
             'price_per_seat': self.price_per_seat,
-            'status': self.status,
+            'available_seats': self.available_seats,
             'bus_id': self.bus_id,
             'route_id': self.route_id
         }

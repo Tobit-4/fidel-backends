@@ -47,7 +47,7 @@ class Route(db.Model):
             "id": self.id,
             "origin": self.origin,
             "destination": self.destination,
-            "schedules": [s.basic_info() for s in self.schedules]
+            "schedules": [s.basic_info for s in self.schedules]
         }
         
     @property

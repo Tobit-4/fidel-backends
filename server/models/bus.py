@@ -40,7 +40,7 @@ class Bus(db.Model):
             "model": self.model,
             "registration_number": self.registration_number,
             "status": self.status,
-            "driver": self.basic_info if self.driver else None,
+            "driver_id": self.basic_info if self.driver_id else None,
             "schedules": [s.basic_info for s in self.schedules]
         }
 

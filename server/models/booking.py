@@ -49,8 +49,18 @@ class Booking(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "user": self.basic_info if self.user else None,
-            "schedules": self.schedule if self.schedule else None
+            "schedule_id": self.schedule_id,
+            # If you need schedule details, serialize them manually:
+            "schedule": {
+                "id": self.schedule.id,
+                "departure_time": self.schedule.departure_time.isoformat(),
+                # Add other Schedule fields as needed
+            } if self.schedule else None,
+            "customer_id": self.customer_id,
+            "seat_number": self.seat_number,
+            "booking_status": self.booking_status,
+            "payment_status": self.payment_status,
+            "created_at": self.created_at.isoformat() if self.created_at else None
         }
 
     

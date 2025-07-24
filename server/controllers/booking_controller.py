@@ -42,6 +42,7 @@ def user_bookings():
 
 @booking_bp.route("/<int:id>/cancel", methods=["PATCH"])
 @jwt_required()
+@role_required("Admin", "Customer")
 def cancel_booking(id):
     user_id = get_jwt_identity()
     booking = Booking.query.get_or_404(id)
@@ -58,7 +59,7 @@ def cancel_booking(id):
 
 @booking_bp.route("/<int:id>", methods=["DELETE"])
 @jwt_required()
-@role_required("Customer")
+@role_required("Customer", "Admin")
 def delete_booking(id):
     user = current_user()
     booking = Booking.query.get_or_404(id)

@@ -28,7 +28,7 @@ def create_bus():
 # Only drivers to view their buses(role based access)
 @bus_bp.route("/my", methods=["GET"])
 @jwt_required()
-@role_required("Driver")
+@role_required("Driver", "Admin")
 def my_buses():
     user = current_user()
     buses = Bus.query.filter_by(driver_id=user.id).all()

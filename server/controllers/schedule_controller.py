@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from server.models import Schedule, Route
 from server.extensions import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from server.utils.auth import role_required
 
 schedule_bp = Blueprint("schedules", __name__, url_prefix="/api/schedules")
 
@@ -10,6 +11,8 @@ def get_schedules():
     return jsonify([s.to_dict() for s in Schedule.query.all()])
 
 @schedule_bp.route("/", methods=["POST"])
+@jwt_required()
+@role_required("Admin", "Driver", "Customer")
 def create_schedule():
     data = request.get_json()
     try:
